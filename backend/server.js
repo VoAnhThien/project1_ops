@@ -1,0 +1,32 @@
+const express = require("express");
+const sqlite3 = require("sqlite3").verbose();
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Kết nối DB SQLite
+const db = new sqlite3.Database("./db.sqlite");
+
+// Tạo bảng nếu chưa có
+db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)");
+
+// API: lấy danh sách user
+app.get("/users", (req, res) => {
+  db.all("SELECT * FROM users", [], (err, rows) => {
+    if (err) return res.status(500).json(err);
+    res.json(rows);
+  });
+});
+
+// API: thêm user
+app.post("/users", (req, res) => {
+  const { name } = req.body;
+  db.run("INSERT INTO users(name) VALUES(?)", [name], function(err) {
+    if (err) return res.status(500).json(err);
+    res.json({ id: this.lastID, name });
+  });
+});
+
+app.listen(5000, () => console.log("Backend chạy ở http://localhost:5000"));
