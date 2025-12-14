@@ -34,3 +34,12 @@ app.post("/users", (req, res) => {
 });
 
 app.listen(5000, () => console.log("Backend chạy ở http://localhost:5000"));
+
+const path = require("path");
+
+// Phục vụ frontend build
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+});
