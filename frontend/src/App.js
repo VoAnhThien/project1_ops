@@ -17,7 +17,7 @@ function App() {
       body: JSON.stringify({ name })
     });
     setName("");
-    const res = await fetch("http://localhost:5000/users");
+    const res = await fetch("https://project1-ops.onrender.com/users");
     setUsers(await res.json());
   };
 

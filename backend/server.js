@@ -3,9 +3,13 @@ const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
 
 const app = express();
-app.use(cors());
-app.use(express.json());
 
+app.use(express.json());
+const cors = require("cors");
+
+app.use(cors({
+  origin: "*", // hoặc cụ thể: ["http://localhost:3000", "https://project1-ops.netlify.app"]
+}));
 // Kết nối DB SQLite
 const db = new sqlite3.Database("./db.sqlite");
 
