@@ -4,14 +4,16 @@ function App() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
 
+  // ✅ Sửa URL ở đây để gọi đúng backend Render
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("https://project1-ops.onrender.com/users")
       .then(res => res.json())
-      .then(data => setUsers(data));
+      .then(data => setUsers(data))
+      .catch(err => console.error("Lỗi khi fetch users:", err));
   }, []);
 
   const addUser = async () => {
-    await fetch("http://localhost:5000/users", {
+    await fetch("https://project1-ops.onrender.com/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name })
